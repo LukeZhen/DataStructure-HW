@@ -1,32 +1,53 @@
 #include <iostream>
-
+#include <queue>
 using namespace std;
 
-int searchElement(int matrix[3][3], int rows, int cols, int element) {
-    int i = 0, j = cols - 1;
-    while (i < rows && j >= 0)
-    {
-        if (matrix[i][j] == element) {
-            return 1; // Element found
-        } else if (matrix[i][j] > element) {
-            j--;
-        } else {
-            i++;
-        }
+void rearrangeQueue(queue<int>& q) {
+    int n = q.size();
+    int mid = n / 2;
+
+    int firstHalf[mid];
+    int secondHalf[mid];
+
+    for (int i = 0; i < mid; i++) {
+        firstHalf[i] = q.front();
+        q.pop();
     }
-    return 0;
+
+    for (int i = 0; i < mid; i++) {
+        secondHalf[i] = q.front();
+        q.pop();
+    }
+
+    int temp = firstHalf[mid - 1];
+    firstHalf[mid - 1] = secondHalf[0];
+    secondHalf[0] = temp;
+
+    for (int i = 0; i < mid; i++) {
+        q.push(firstHalf[i]);
+    }
+    for (int i = 0; i < mid; i++) {
+        q.push(secondHalf[i]);
+    }
 }
 
 int main() {
-    int matrix[3][3] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}};
-    int rows = 3, cols = 3;
-    int element;
-    cout << "Enter the element you want to find: " ;
-    cin >> element;
-    if (searchElement(matrix, rows, cols, element)) {
-        cout << "Element found." << endl;
-    } else {
-        cout << "Element not found." << endl;
+    queue<int> q;
+
+    q.push(1);
+    q.push(2);
+    q.push(3);
+    q.push(4);
+    q.push(5);
+    q.push(6);
+    q.push(7);
+    q.push(8);
+
+    rearrangeQueue(q);
+
+    while (!q.empty()) {
+        cout << q.front() << " ";
+        q.pop();
     }
 
     return 0;
